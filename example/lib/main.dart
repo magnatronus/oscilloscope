@@ -25,7 +25,6 @@ class Shell extends StatefulWidget {
 }
 
 class _ShellState extends State<Shell> {
-
   List<double> traceX = List();
   List<double> traceY = List();
   double radians = 0.0;
@@ -37,7 +36,6 @@ class _ShellState extends State<Shell> {
     // generate our  values
     var sv = sin((radians * pi));
     var cv = cos((radians * pi));
-
 
     // Add to the growing dataset
     setState(() {
@@ -67,7 +65,6 @@ class _ShellState extends State<Shell> {
 
   @override
   Widget build(BuildContext context) {
-  
     // Create A Scope Display
     Oscilloscope scopeOne = Oscilloscope(
       padding: 20.0,
