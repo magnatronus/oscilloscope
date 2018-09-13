@@ -19,7 +19,7 @@ The display can be customised using the follwoing values:
  *yAxisMin* and *yAxisMax* are used by the widget to determine the scaling factor so all data values are displayed. These values can be altered to modify the data display scale.
 
 
-<img src="scope.gif" />
+<img src="https://raw.githubusercontent.com/magnatronus/oscilloscope/master/scope.gif" />
 
 
 ## Getting Started
