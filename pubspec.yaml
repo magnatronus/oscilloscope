@@ -1,0 +1,17 @@
+name: oscilloscope
+description: A graphical widget that can be used to display a dataset similar to an oscilloscope display
+version: 0.0.1
+author: Steve Rogers <srogers.uk@gmail.com>
+homepage: https://github.com/magnatronus/oscilloscope
+
+environment:
+  sdk: ">=2.0.0-dev.68.0 <3.0.0"
+  flutter: ">=0.1.4 <2.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
