@@ -24,5 +24,7 @@ The display can be customised using the follwoing values:
 
 ## Getting Started
 
+For package install [see here](https://pub.dartlang.org/packages/oscilloscope).
+
 For help getting started with Flutter, view the online [documentation](https://flutter.io/).
 
