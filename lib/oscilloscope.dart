@@ -72,6 +72,7 @@ class _OscilloscopeState extends State<Oscilloscope> {
               yAxisColor: widget.yAxisColor,
               dataSet: widget.dataSet,
               traceColor: widget.traceColor,
+              yMin: widget.yAxisMin,
               yRange: yRange),
         ),
       ),
@@ -83,6 +84,7 @@ class _OscilloscopeState extends State<Oscilloscope> {
 class _TracePainter extends CustomPainter {
   final List dataSet;
   final double xScale;
+  final double yMin;
   final Color traceColor;
   final Color yAxisColor;
   final bool showYAxis;
@@ -92,6 +94,7 @@ class _TracePainter extends CustomPainter {
       {this.showYAxis,
       this.yAxisColor,
       this.yRange,
+      this.yMin,
       this.dataSet,
       this.xScale = 1.0,
       this.traceColor = Colors.white});
@@ -121,13 +124,12 @@ class _TracePainter extends CustomPainter {
 
       // Create Path and set Origin to first data point
       Path trace = Path();
-      trace.moveTo(
-          0.0, size.height - (dataSet[0].toDouble() + (yRange / 2)) * yScale);
+      trace.moveTo(0.0, size.height - (dataSet[0].toDouble() - yMin) * yScale);
 
       // generate trace path
       for (int p = 0; p < length; p++) {
         double plotPoint =
-            size.height - ((dataSet[p].toDouble() + (yRange / 2)) * yScale);
+            size.height - ((dataSet[p].toDouble() - yMin) * yScale);
         trace.lineTo(p.toDouble() * xScale, plotPoint);
       }
 
@@ -136,11 +138,8 @@ class _TracePainter extends CustomPainter {
 
       // if yAxis required draw it here
       if (showYAxis) {
-        print("show y axis");
-        Offset yStart =
-            Offset(0.0, size.height - (0.0 + (yRange / 2)) * yScale);
-        Offset yEnd =
-            Offset(size.width, size.height - (0.0 + (yRange / 2)) * yScale);
+        Offset yStart = Offset(0.0, size.height - (0.0 - yMin) * yScale);
+        Offset yEnd = Offset(size.width, size.height - (0.0 - yMin) * yScale);
         canvas.drawLine(yStart, yEnd, axisPaint);
       }
     }

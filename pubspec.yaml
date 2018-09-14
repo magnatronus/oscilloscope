@@ -1,6 +1,6 @@
 name: oscilloscope
 description: A graphical widget that can be used to display a dataset similar to an oscilloscope display
-version: 0.0.2
+version: 0.0.3
 author: Steve Rogers <srogers.uk@gmail.com>
 homepage: https://github.com/magnatronus/oscilloscope
 
