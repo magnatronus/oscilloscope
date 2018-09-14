@@ -25,13 +25,13 @@ class Shell extends StatefulWidget {
 }
 
 class _ShellState extends State<Shell> {
-  List<double> traceX = List();
-  List<double> traceY = List();
+  List<double> traceSine = List();
+  List<double> traceCosine = List();
   double radians = 0.0;
   Timer _timer;
 
-  /// method to generate tTst  Wave Pattern Sets
-  /// this gives us a value between +1  & -1 for sign & cosine
+  /// method to generate a Test  Wave Pattern Sets
+  /// this gives us a value between +1  & -1 for sine & cosine
   _generateTrace(Timer t) {
     // generate our  values
     var sv = sin((radians * pi));
@@ -39,11 +39,11 @@ class _ShellState extends State<Shell> {
 
     // Add to the growing dataset
     setState(() {
-      traceX.add(sv);
-      traceY.add(cv);
+      traceSine.add(sv);
+      traceCosine.add(cv);
     });
 
-    // adjust to recyle the radian value ( 0 = 2Pi RADS)
+    // adjust to recyle the radian value ( as 0 = 2Pi RADS)
     radians += 0.05;
     if (radians >= 2.0) {
       radians = 0.0;
@@ -65,24 +65,27 @@ class _ShellState extends State<Shell> {
 
   @override
   Widget build(BuildContext context) {
-    // Create A Scope Display
+    // Create A Scope Display for Sine
     Oscilloscope scopeOne = Oscilloscope(
+      showYAxis: true,
+      yAxisColor: Colors.orange,
       padding: 20.0,
       backgroundColor: Colors.black,
       traceColor: Colors.green,
       yAxisMax: 1.0,
       yAxisMin: -1.0,
-      dataSet: traceX,
+      dataSet: traceSine,
     );
 
-    // Create A Scope Display
+    // Create A Scope Display for Cosine
     Oscilloscope scopeTwo = Oscilloscope(
+      showYAxis: true,
       padding: 20.0,
       backgroundColor: Colors.black,
       traceColor: Colors.yellow,
       yAxisMax: 1.0,
       yAxisMin: -1.0,
-      dataSet: traceY,
+      dataSet: traceCosine,
     );
 
     // Generate the Scaffold

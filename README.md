@@ -1,14 +1,16 @@
 # oscilloscope widget package for Flutter
 
-Oscilloscope is a graphical display  similar to the trace on an oscilloscope that will display values as it scrolls across the screen. The widget uses a List <double> as the source of the data to display and will scale the information to fit the display. Take a look at the example to see how it can be used.
+Oscilloscope is a graphical display  similar to the trace on an oscilloscope that will display values as it scrolls across the screen. The widget uses a *List <double>* as the source of the data to display and will scale the information to fit the display. Take a look at the example to see how it can be used.
 
-Each time a value is added to the dataset another point is plotted on the trace, this trace will extends from left to right across the screen until it reaches the end. At this pint the trace will then scroll to show new values.
+Each time a value is added to the dataset another point is plotted on the trace, this trace will extends from left to right across the screen until it reaches the end. At this point the trace will then scroll to show new values.
 
-The display can be customised using the follwoing values:
+The display can be customised using the following values:
 
  - *backgroundColor*  - the default is Colors.black
  - *traceColor* - the default color is Colors.white
  - *padding* - the default is 10.0
+ - *showYAxis* - show or hide  a line representing the 0 yAxis (default is false)
+ - *yAxisColor* - if the yAxis is set for display it will show in this color (default is Colors.white) 
 
  The other settings are
 

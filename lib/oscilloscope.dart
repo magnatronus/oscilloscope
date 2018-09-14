@@ -10,6 +10,9 @@ import 'package:flutter/material.dart';
 ///
 /// All other arguments are optional as they have preset values
 ///
+/// [showYAxis] this will display a line along the yAxisat 0 if the value is set to true (default is false)
+/// [yAxisColor] determines the color of the displayed yAxis (default value is Colors.white)
+///
 /// [yAxisMin] and [yAxisMax] although optional should be set to reflect the data that is supplied in [dataSet]. These values
 /// should be set to the min and max values in the supplied [dataSet].
 ///
@@ -28,13 +31,17 @@ class Oscilloscope extends StatefulWidget {
   final double padding;
   final Color backgroundColor;
   final Color traceColor;
+  final Color yAxisColor;
+  final bool showYAxis;
 
   Oscilloscope(
       {this.traceColor = Colors.white,
       this.backgroundColor = Colors.black,
+      this.yAxisColor = Colors.white,
       this.padding = 10.0,
       this.yAxisMax = 1.0,
       this.yAxisMin = 0.0,
+      this.showYAxis = false,
       @required this.dataSet});
 
   @override
@@ -61,6 +68,8 @@ class _OscilloscopeState extends State<Oscilloscope> {
       child: ClipRect(
         child: CustomPaint(
           painter: _TracePainter(
+              showYAxis: widget.showYAxis,
+              yAxisColor: widget.yAxisColor,
               dataSet: widget.dataSet,
               traceColor: widget.traceColor,
               yRange: yRange),
@@ -75,21 +84,29 @@ class _TracePainter extends CustomPainter {
   final List dataSet;
   final double xScale;
   final Color traceColor;
+  final Color yAxisColor;
+  final bool showYAxis;
   final double yRange;
 
   _TracePainter(
-      {this.yRange,
+      {this.showYAxis,
+      this.yAxisColor,
+      this.yRange,
       this.dataSet,
       this.xScale = 1.0,
       this.traceColor = Colors.white});
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
+    final tracePaint = Paint()
       ..strokeJoin = StrokeJoin.round
       ..strokeWidth = 2.0
       ..color = traceColor
       ..style = PaintingStyle.stroke;
+
+    final axisPaint = Paint()
+      ..strokeWidth = 1.0
+      ..color = yAxisColor;
 
     double yScale = (size.height / yRange);
 
@@ -115,7 +132,17 @@ class _TracePainter extends CustomPainter {
       }
 
       // display the trace
-      canvas.drawPath(trace, paint);
+      canvas.drawPath(trace, tracePaint);
+
+      // if yAxis required draw it here
+      if (showYAxis) {
+        print("show y axis");
+        Offset yStart =
+            Offset(0.0, size.height - (0.0 + (yRange / 2)) * yScale);
+        Offset yEnd =
+            Offset(size.width, size.height - (0.0 + (yRange / 2)) * yScale);
+        canvas.drawLine(yStart, yEnd, axisPaint);
+      }
     }
   }
 
