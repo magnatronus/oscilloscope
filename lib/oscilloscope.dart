@@ -21,11 +21,13 @@ import 'package:flutter/material.dart';
 ///
 /// You can modify the background color of the oscilloscope with the [backgroundColor] argument and the color of the trace with [traceColor]
 ///
-/// The [padding] argument allows space to be set around the display (this defaults to 10.0 if not specified)
+/// The [margin] argument allows space to be set around the display (this defaults to EdgeInsets.all(10.0) if not specified)
+///
+/// The [strokeWidth] argument defines how wide to make lines drawn (this defaults to 2.0 if not specified).
 ///
 /// NB: This is not a Time Domain trace, the update frequency of the supplied [dataSet] determines the trace speed.
 class Oscilloscope extends StatefulWidget {
-  final List<double> dataSet;
+  final List<num> dataSet;
   final double yAxisMin;
   final double yAxisMax;
   final double padding;
@@ -33,15 +35,19 @@ class Oscilloscope extends StatefulWidget {
   final Color traceColor;
   final Color yAxisColor;
   final bool showYAxis;
+  final double strokeWidth;
+  final EdgeInsetsGeometry margin;
 
   Oscilloscope(
       {this.traceColor = Colors.white,
       this.backgroundColor = Colors.black,
       this.yAxisColor = Colors.white,
-      this.padding = 10.0,
+      @Deprecated("Use 'margin' instead") this.padding = 10.0,
+      this.margin = const EdgeInsets.all(10.0),
       this.yAxisMax = 1.0,
       this.yAxisMin = 0.0,
       this.showYAxis = false,
+      this.strokeWidth = 2.0,
       @required this.dataSet});
 
   @override
@@ -61,7 +67,7 @@ class _OscilloscopeState extends State<Oscilloscope> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(widget.padding),
+      padding: widget.margin,
       width: double.infinity,
       height: double.infinity,
       color: widget.backgroundColor,
@@ -73,6 +79,7 @@ class _OscilloscopeState extends State<Oscilloscope> {
               dataSet: widget.dataSet,
               traceColor: widget.traceColor,
               yMin: widget.yAxisMin,
+              strokeWidth: widget.strokeWidth,
               yRange: yRange),
         ),
       ),
@@ -82,13 +89,14 @@ class _OscilloscopeState extends State<Oscilloscope> {
 
 /// A Custom Painter used to generate the trace line from the supplied dataset
 class _TracePainter extends CustomPainter {
-  final List dataSet;
+  final List<num> dataSet;
   final double xScale;
   final double yMin;
   final Color traceColor;
   final Color yAxisColor;
   final bool showYAxis;
   final double yRange;
+  final double strokeWidth;
 
   _TracePainter(
       {this.showYAxis,
@@ -97,19 +105,16 @@ class _TracePainter extends CustomPainter {
       this.yMin,
       this.dataSet,
       this.xScale = 1.0,
+      this.strokeWidth,
       this.traceColor = Colors.white});
 
   @override
   void paint(Canvas canvas, Size size) {
     final tracePaint = Paint()
       ..strokeJoin = StrokeJoin.round
-      ..strokeWidth = 2.0
+      ..strokeWidth = strokeWidth
       ..color = traceColor
       ..style = PaintingStyle.stroke;
-
-    final axisPaint = Paint()
-      ..strokeWidth = 1.0
-      ..color = yAxisColor;
 
     double yScale = (size.height / yRange);
 
@@ -138,6 +143,10 @@ class _TracePainter extends CustomPainter {
 
       // if yAxis required draw it here
       if (showYAxis) {
+        final axisPaint = Paint()
+          ..strokeWidth = 1.0
+          ..color = yAxisColor;
+
         Offset yStart = Offset(0.0, size.height - (0.0 - yMin) * yScale);
         Offset yEnd = Offset(size.width, size.height - (0.0 - yMin) * yScale);
         canvas.drawLine(yStart, yEnd, axisPaint);
