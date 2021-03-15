@@ -37,6 +37,7 @@ class Oscilloscope extends StatefulWidget {
   final bool showYAxis;
   final double strokeWidth;
   final EdgeInsetsGeometry margin;
+  final void Function() onNewViewport;
 
   Oscilloscope(
       {this.traceColor = Colors.white,
@@ -48,6 +49,7 @@ class Oscilloscope extends StatefulWidget {
       this.yAxisMin = 0.0,
       this.showYAxis = false,
       this.strokeWidth = 2.0,
+      this.onNewViewport,
       @required this.dataSet});
 
   @override
@@ -55,15 +57,6 @@ class Oscilloscope extends StatefulWidget {
 }
 
 class _OscilloscopeState extends State<Oscilloscope> {
-  double yRange;
-  double yScale;
-
-  @override
-  void initState() {
-    super.initState();
-    yRange = widget.yAxisMax - widget.yAxisMin;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -79,8 +72,9 @@ class _OscilloscopeState extends State<Oscilloscope> {
               dataSet: widget.dataSet,
               traceColor: widget.traceColor,
               yMin: widget.yAxisMin,
+              yMax: widget.yAxisMax,
               strokeWidth: widget.strokeWidth,
-              yRange: yRange),
+              onNewViewport: widget.onNewViewport),
         ),
       ),
     );
@@ -92,32 +86,45 @@ class _TracePainter extends CustomPainter {
   final List<num> dataSet;
   final double xScale;
   final double yMin;
+  final double yMax;
   final Color traceColor;
   final Color yAxisColor;
   final bool showYAxis;
-  final double yRange;
   final double strokeWidth;
+  final void Function() onNewViewport;
+
+  final Paint _tracePaint;
+  final Paint _axisPaint;
 
   _TracePainter(
       {this.showYAxis,
       this.yAxisColor,
-      this.yRange,
       this.yMin,
+      this.yMax,
       this.dataSet,
       this.xScale = 1.0,
       this.strokeWidth,
-      this.traceColor = Colors.white});
+      this.onNewViewport,
+      this.traceColor = Colors.white})
+      : _axisPaint = Paint()
+          ..strokeWidth = 1.0
+          ..color = yAxisColor,
+        _tracePaint = Paint()
+          ..strokeJoin = StrokeJoin.round
+          ..strokeWidth = strokeWidth
+          ..color = traceColor
+          ..style = PaintingStyle.stroke;
+
+  double _scale(double newMax, double newMin, {@required num value}) {
+    final double oldRange = yMax - yMin;
+    if (oldRange == 0) return newMin;
+
+    final double newRange = newMax - newMin;
+    return (((value - yMin) * newRange) / oldRange) + newMin;
+  }
 
   @override
   void paint(Canvas canvas, Size size) {
-    final tracePaint = Paint()
-      ..strokeJoin = StrokeJoin.round
-      ..strokeWidth = strokeWidth
-      ..color = traceColor
-      ..style = PaintingStyle.stroke;
-
-    double yScale = (size.height / yRange);
-
     // only start plot if dataset has data
     int length = dataSet.length;
     if (length > 0) {
@@ -125,35 +132,32 @@ class _TracePainter extends CustomPainter {
       if (length > size.width) {
         dataSet.removeAt(0);
         length = dataSet.length;
+        onNewViewport?.call();
       }
 
       // Create Path and set Origin to first data point
-      Path trace = Path();
-      trace.moveTo(0.0, size.height - (dataSet[0].toDouble() - yMin) * yScale);
+      final Path trace = Path();
+      trace.moveTo(0, _scale(0, size.height, value: dataSet[0]));
 
       // generate trace path
       for (int p = 0; p < length; p++) {
-        double plotPoint =
-            size.height - ((dataSet[p].toDouble() - yMin) * yScale);
+        final double plotPoint = _scale(0, size.height, value: dataSet[p]);
         trace.lineTo(p.toDouble() * xScale, plotPoint);
       }
 
       // display the trace
-      canvas.drawPath(trace, tracePaint);
+      canvas.drawPath(trace, _tracePaint);
 
       // if yAxis required draw it here
       if (showYAxis) {
-        final axisPaint = Paint()
-          ..strokeWidth = 1.0
-          ..color = yAxisColor;
-
-        Offset yStart = Offset(0.0, size.height - (0.0 - yMin) * yScale);
-        Offset yEnd = Offset(size.width, size.height - (0.0 - yMin) * yScale);
-        canvas.drawLine(yStart, yEnd, axisPaint);
+        final double yOrigin = _scale(0, size.height, value: 0);
+        final Offset yStart = Offset(0, yOrigin);
+        final Offset yEnd = Offset(size.width, yOrigin);
+        canvas.drawLine(yStart, yEnd, _axisPaint);
       }
     }
   }
 
   @override
-  bool shouldRepaint(_TracePainter old) => true;
+  bool shouldRepaint(_) => true;
 }
