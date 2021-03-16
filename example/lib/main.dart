@@ -26,10 +26,10 @@ class Shell extends StatefulWidget {
 }
 
 class _ShellState extends State<Shell> {
-  List<double> traceSine = List();
-  List<double> traceCosine = List();
+  List<double> traceSine = [];
+  List<double> traceCosine = [];
   double radians = 0.0;
-  Timer _timer;
+  Timer? _timer;
 
   /// method to generate a Test  Wave Pattern Sets
   /// this gives us a value between +1  & -1 for sine & cosine
@@ -60,7 +60,7 @@ class _ShellState extends State<Shell> {
 
   @override
   void dispose() {
-    _timer.cancel();
+    _timer!.cancel();
     super.dispose();
   }
 

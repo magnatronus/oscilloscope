@@ -1,4 +1,4 @@
-// Copyright (c) 2018, Steve Rogers. All rights reserved. Use of this source code
+// Copyright (c) 2018-2021, Steve Rogers. All rights reserved. Use of this source code
 // is governed by an Apache License 2.0 that can be found in the LICENSE file.
 library oscilloscope;
 
@@ -37,7 +37,7 @@ class Oscilloscope extends StatefulWidget {
   final bool showYAxis;
   final double strokeWidth;
   final EdgeInsetsGeometry margin;
-  final void Function() onNewViewport;
+  final void Function()? onNewViewport;
 
   Oscilloscope(
       {this.traceColor = Colors.white,
@@ -50,7 +50,7 @@ class Oscilloscope extends StatefulWidget {
       this.showYAxis = false,
       this.strokeWidth = 2.0,
       this.onNewViewport,
-      @required this.dataSet});
+      required this.dataSet});
 
   @override
   _OscilloscopeState createState() => _OscilloscopeState();
@@ -66,16 +66,16 @@ class _OscilloscopeState extends State<Oscilloscope> {
       color: widget.backgroundColor,
       child: ClipRect(
         child: CustomPaint(
-          painter: _TracePainter(
-              showYAxis: widget.showYAxis,
-              yAxisColor: widget.yAxisColor,
-              dataSet: widget.dataSet,
-              traceColor: widget.traceColor,
-              yMin: widget.yAxisMin,
-              yMax: widget.yAxisMax,
-              strokeWidth: widget.strokeWidth,
-              onNewViewport: widget.onNewViewport),
-        ),
+            painter: _TracePainter(
+          showYAxis: widget.showYAxis,
+          yAxisColor: widget.yAxisColor,
+          dataSet: widget.dataSet,
+          traceColor: widget.traceColor,
+          yMin: widget.yAxisMin,
+          yMax: widget.yAxisMax,
+          strokeWidth: widget.strokeWidth,
+          onNewViewport: widget.onNewViewport,
+        )),
       ),
     );
   }
@@ -88,34 +88,34 @@ class _TracePainter extends CustomPainter {
   final double yMin;
   final double yMax;
   final Color traceColor;
-  final Color yAxisColor;
+  final Color? yAxisColor;
   final bool showYAxis;
-  final double strokeWidth;
-  final void Function() onNewViewport;
+  final double? strokeWidth;
+  final void Function()? onNewViewport;
 
   final Paint _tracePaint;
   final Paint _axisPaint;
 
   _TracePainter(
-      {this.showYAxis,
+      {required this.showYAxis,
       this.yAxisColor,
-      this.yMin,
-      this.yMax,
-      this.dataSet,
+      required this.yMin,
+      required this.yMax,
+      required this.dataSet,
       this.xScale = 1.0,
       this.strokeWidth,
       this.onNewViewport,
       this.traceColor = Colors.white})
       : _axisPaint = Paint()
           ..strokeWidth = 1.0
-          ..color = yAxisColor,
+          ..color = yAxisColor!,
         _tracePaint = Paint()
           ..strokeJoin = StrokeJoin.round
-          ..strokeWidth = strokeWidth
+          ..strokeWidth = strokeWidth!
           ..color = traceColor
           ..style = PaintingStyle.stroke;
 
-  double _scale(double newMax, double newMin, {@required num value}) {
+  double _scale(double newMax, double newMin, {required num value}) {
     final double oldRange = yMax - yMin;
     if (oldRange == 0) return newMin;
 
@@ -132,7 +132,7 @@ class _TracePainter extends CustomPainter {
       if (length > size.width) {
         dataSet.removeAt(0);
         length = dataSet.length;
-        onNewViewport?.call();
+        onNewViewport!.call();
       }
 
       // Create Path and set Origin to first data point
