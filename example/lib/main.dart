@@ -1,11 +1,12 @@
+import 'dart:async';
+import 'dart:math';
+
 /// Demo of using the oscilloscope package
 ///
 /// In this demo 2 displays are generated showing the outputs for Sine & Cosine
 /// The scope displays will show the data sets  which will fill the yAxis and then the screen display will 'scroll'
 import 'package:flutter/material.dart';
 import 'package:oscilloscope/oscilloscope.dart';
-import 'dart:math';
-import 'dart:async';
 
 void main() => runApp(new MyApp());
 
@@ -69,7 +70,8 @@ class _ShellState extends State<Shell> {
     Oscilloscope scopeOne = Oscilloscope(
       showYAxis: true,
       yAxisColor: Colors.orange,
-      padding: 20.0,
+      margin: EdgeInsets.all(20.0),
+      strokeWidth: 1.0,
       backgroundColor: Colors.black,
       traceColor: Colors.green,
       yAxisMax: 1.0,
@@ -80,7 +82,8 @@ class _ShellState extends State<Shell> {
     // Create A Scope Display for Cosine
     Oscilloscope scopeTwo = Oscilloscope(
       showYAxis: true,
-      padding: 20.0,
+      margin: EdgeInsets.all(20.0),
+      strokeWidth: 3.0,
       backgroundColor: Colors.black,
       traceColor: Colors.yellow,
       yAxisMax: 1.0,

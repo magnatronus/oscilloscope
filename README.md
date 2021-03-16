@@ -8,7 +8,8 @@ The display can be customised using the following values:
 
  - *backgroundColor*  - the default is Colors.black
  - *traceColor* - the default color is Colors.white
- - *padding* - the default is 10.0
+ - *margin* - the default is *EdgeInsets.all(10.0)*
+ - *strokeWidth* - the default width is 2.0
  - *showYAxis* - show or hide  a line representing the 0 yAxis (default is false)
  - *yAxisColor* - if the yAxis is set for display it will show in this color (default is Colors.white) 
 
