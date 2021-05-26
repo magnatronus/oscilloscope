@@ -1,3 +1,7 @@
+## [0.2.0] - 26 May 2021
+
+* Fix issue with non scrolling display (MUZAMMIL)
+
 ## [0.1.0] - 16 March 2021
 
 * Merge PR from Enzo Santos. Update to null safety

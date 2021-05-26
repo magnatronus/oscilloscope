@@ -30,4 +30,3 @@ The display can be customised using the following values:
 For package install [see here](https://pub.dartlang.org/packages/oscilloscope).
 
 For help getting started with Flutter, view the online [documentation](https://flutter.io/).
-

@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 ///
 /// All other arguments are optional as they have preset values
 ///
-/// [showYAxis] this will display a line along the yAxisat 0 if the value is set to true (default is false)
+/// [showYAxis] this will display a line along the yAxis at 0 if the value is set to true (default is false)
 /// [yAxisColor] determines the color of the displayed yAxis (default value is Colors.white)
 ///
 /// [yAxisMin] and [yAxisMax] although optional should be set to reflect the data that is supplied in [dataSet]. These values
@@ -132,7 +132,7 @@ class _TracePainter extends CustomPainter {
       if (length > size.width) {
         dataSet.removeAt(0);
         length = dataSet.length;
-        onNewViewport!.call();
+        onNewViewport?.call();
       }
 
       // Create Path and set Origin to first data point
