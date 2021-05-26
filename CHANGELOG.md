@@ -1,4 +1,4 @@
-## [0.2.0] - 26 May 2021
+## [0.2.0+1] - 26 May 2021
 
 * Fix issue with non scrolling display (MUZAMMIL)
 
