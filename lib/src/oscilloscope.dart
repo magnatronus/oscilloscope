@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 /// A widget that defines a customisable Oscilloscope type display that can be used to graph out data
 ///
-/// The [dataSet] arguments MUST be a List<double> -  this is the data that is used by the display to generate a trace
+/// The [dataSet] arguments MUST be a List`&lt;`double`&gt;` -  this is the data that is used by the display to generate a trace
 ///
 /// All other arguments are optional as they have preset values
 ///
