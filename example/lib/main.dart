@@ -8,21 +8,22 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:oscilloscope/oscilloscope.dart';
 
-void main() => runApp(new MyApp());
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: "Oscilloscope Display Example",
-      home: Shell(),
-    );
+    return MaterialApp(title: "Oscilloscope Display Example", home: Shell());
   }
 }
 
 class Shell extends StatefulWidget {
+  const Shell({super.key});
+
   @override
-  _ShellState createState() => _ShellState();
+  State<StatefulWidget> createState() => _ShellState();
 }
 
 class _ShellState extends State<Shell> {
@@ -93,16 +94,11 @@ class _ShellState extends State<Shell> {
 
     // Generate the Scaffold
     return Scaffold(
-      appBar: AppBar(
-        title: Text("OscilloScope Demo"),
-      ),
+      appBar: AppBar(title: Text("OscilloScope Demo")),
       body: Column(
         children: <Widget>[
           Expanded(flex: 1, child: scopeOne),
-          Expanded(
-            flex: 1,
-            child: scopeTwo,
-          ),
+          Expanded(flex: 1, child: scopeTwo),
         ],
       ),
     );

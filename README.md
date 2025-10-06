@@ -1,8 +1,11 @@
-# oscilloscope widget package for Flutter
+# Oscilloscope
 
 Oscilloscope is a graphical display  similar to the trace on an oscilloscope that will display values as it scrolls across the screen. The widget uses a *List <double>* as the source of the data to display and will scale the information to fit the display. Take a look at the example to see how it can be used.
 
 Each time a value is added to the dataset another point is plotted on the trace, this trace will extends from left to right across the screen until it reaches the end. At this point the trace will then scroll to show new values.
+
+
+## Features
 
 The display can be customised using the following values:
 
@@ -22,11 +25,9 @@ The display can be customised using the following values:
  *yAxisMin* and *yAxisMax* are used by the widget to determine the scaling factor so all data values are displayed. These values can be altered to modify the data display scale.
 
 
+## Usage
+
+see the **`/example` for more informaion.
+
 <img src="https://raw.githubusercontent.com/magnatronus/oscilloscope/master/scope.gif" />
 
-
-## Getting Started
-
-For package install [see here](https://pub.dartlang.org/packages/oscilloscope).
-
-For help getting started with Flutter, view the online [documentation](https://flutter.io/).

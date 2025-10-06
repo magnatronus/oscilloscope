@@ -1,3 +1,7 @@
+## [0.3.0] - 6 Oct 2025
+
+* Bring plugin up to date
+
 ## [0.2.0+1] - 26 May 2021
 
 * Fix issue with non scrolling display (MUZAMMIL)
