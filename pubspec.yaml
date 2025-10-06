@@ -1,5 +1,5 @@
 name: oscilloscope
-version: 0.3.0
+version: 0.4.0
 description: A graphical widget that can be used to display a dataset similar to an oscilloscope display
 homepage: https://github.com/magnatronus/oscilloscope
 

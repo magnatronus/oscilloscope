@@ -1,3 +1,7 @@
+## [0.4.0] - 6 Oct 2025
+
+* Add time domain based trace
+
 ## [0.3.0] - 6 Oct 2025
 
 * Bring plugin up to date
