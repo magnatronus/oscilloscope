@@ -71,7 +71,7 @@ class _ShellState extends State<Shell> {
     Oscilloscope scopeOne = Oscilloscope(
       showYAxis: true,
       yAxisColor: Colors.orange,
-      margin: EdgeInsets.all(20.0),
+      margin: EdgeInsets.all(10.0),
       strokeWidth: 1.0,
       backgroundColor: Colors.black,
       traceColor: Colors.green,
@@ -83,7 +83,7 @@ class _ShellState extends State<Shell> {
     // Create A Scope Display for Cosine
     Oscilloscope scopeTwo = Oscilloscope(
       showYAxis: true,
-      margin: EdgeInsets.all(20.0),
+      margin: EdgeInsets.all(10.0),
       strokeWidth: 3.0,
       backgroundColor: Colors.black,
       traceColor: Colors.yellow,
@@ -92,14 +92,32 @@ class _ShellState extends State<Shell> {
       dataSet: traceCosine,
     );
 
+    // create a Timedomain scope
+    TDOscilloscope scopeThree = TDOscilloscope(
+      showYAxis: true,
+      margin: EdgeInsets.all(10.0),
+      strokeWidth: 2.0,
+      backgroundColor: Colors.black,
+      traceColor: Colors.pink,
+      yAxisColor: Colors.blue,
+      yAxisMax: 1.0,
+      yAxisMin: -1.0,
+      dataSet: traceCosine,
+    );
+
     // Generate the Scaffold
     return Scaffold(
       appBar: AppBar(title: Text("OscilloScope Demo")),
-      body: Column(
-        children: <Widget>[
-          Expanded(flex: 1, child: scopeOne),
-          Expanded(flex: 1, child: scopeTwo),
-        ],
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return Column(
+            children: <Widget>[
+              SizedBox(height: constraints.maxHeight / 3, child: scopeThree),
+              SizedBox(height: constraints.maxHeight / 3, child: scopeTwo),
+              SizedBox(height: constraints.maxHeight / 3, child: scopeOne),
+            ],
+          );
+        },
       ),
     );
   }
